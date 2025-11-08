@@ -157,6 +157,126 @@ select s.*, c.name as class_name
 from student s
 left join class c on s.class_id = c.id
 where c.name = 'c1121g1'
-order by s.score desc, s.name asc
+order by s.score desc, s.name asc;
+
+-- bài 4: sử dụng các hàm thông dụng
+-- 1.1	Hiện thị danh sách các lớp có học viên theo học và số lượng học viên của mỗi lớp
+ select c.id, c.name as class_name,count(s.id) as sl
+ from student s  join class c on s.class_id=c.id
+ group by c.id;
+
+-- 1.2.	 Tính điểm lớn nhất của mỗi các lớp
+ select c.id, c.name as class_name,max(s.score) as max_score
+ from student s join class c on s.class_id=c.id
+ group by c.id;
+
+-- 1.3	 Tình điểm trung bình  của từng lớp
+ select c.id, c.name as class_name,avg(s.score) as avg_score
+ from student s join class c on s.class_id=c.id
+ group by c.id;
+
+-- 2 Lấy ra toàn bộ tên và ngày sinh các instructor và student ở CodeGym.
+select name,birthday
+from student
+union
+select name,birthday
+from instructor;
+
+ select *
+ from student s left join class c on s.class_id=c.id
+ union 
+ select *
+ from student s right join class c on s.class_id=c.id;
+-- 4 Lấy ra top 3 học viên có điểm cao nhất của trung tâm.
+select * from student order by score desc limit 3;
+-- 3 record tiếp the0
+select * from student order by score desc limit 3,3;
+
+-- 5. Lấy ra các học viên có điểm số là cao nhất của trung tâm.
+select * from student where score =(select max(score) from student);
+select * from student where score <= all (select score from student);
+
+-- 6 lấy ra tất cả các giảng viên chưa từng tham gia giảng dạy
+-- Câu truy vấn con
+select name from instructor
+where id not in (select distinct instructor_id from instructor_class);
+
+select instructor_id from instructor_class;
+
+-- join bảng
+select i.name
+from instructor i left join instructor_class ic on i.id = ic.instructor_id
+where ic.instructor_id is null;
+
+-- bài 5 index, view, sp ,function, trigger
+select count(*) from customers;
+explain select * from customers where city = 'lyon';
+select count(*) from customers where city = 'lyon';
+
+create index i_city on customers(city);
+alter table customers add index i_country(country);
+
+drop index i_city on customers;
+alter table customers drop  index i_country;
 
 
+-- view
+create view w_student as
+ select s.*, c.name as class_name
+ from student s 
+ join class c on s.class_id=c.id
+ join jame j on j.username = s.username;
+ 
+ select * from w_student;
+ -- tạo một sp lấy thông tin của tất cả học viên => không có tham số
+ delimiter //
+ create procedure get_all_student()
+ begin
+   select s.*, c.name as class_name
+   from student s 
+   join class c on s.class_id=c.id
+   join jame j on j.username = s.username;
+   select * from student;
+ end //
+ delimiter ;
+ 
+ call get_all_student();
+ 
+  delimiter //
+ create procedure get_student_by_id( IN p_id int)
+ begin
+   select s.*, c.name as class_name, xep_loai(s.score) as `xep_loai`
+   from student s 
+   join class c on s.class_id=c.id
+   join jame j on j.username = s.username where s.id = p_id;
+ end //
+ delimiter ;
+ 
+ call get_student_by_id(3);
+ -- funtion => tạo hàm xếp loại
+ 
+delimiter //
+ create function xep_loai(p_score int)
+ returns varchar(20)
+ deterministic
+ begin
+ declare loai varchar(20);
+ if p_score>=8 then
+   set loai ='giỏi';
+ elseif p_score >=7 then
+   set loai ='khá';
+ elseif p_score >=5 then
+   set loai ='trung bình';
+ else
+    set loai ='yếu';
+ end if;
+ return loai;
+ end //
+ delimiter ;
+ 
+ 
+ -- sử dụng
+ select xep_loai(7); 
+ 
+ 
+ 
