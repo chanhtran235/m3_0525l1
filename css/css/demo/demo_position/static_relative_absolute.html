@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .static {
+            background: red;
+            /*position: static;*/
+            left: 100px;
+            top: 100px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .relative {
+            background: yellow;
+            position: relative;
+            top: 100px;
+            left: 100px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .child {
+            background: yellow;
+            /*position: absolute;*/
+            margin: 0px;
+            left: 50px;
+            bottom: 0px;
+        }
+
+        .parent {
+            position: relative;
+            background: green;
+            height: 200px;
+            width: 200px;
+            top: 100px;
+            left: 100px;
+        }
+
+        .ong-noi {
+            background-color: aquamarine;
+            position: relative;
+            height: 300px;
+            top: 0px;
+            left: 0px;
+        }
+
+        .fixed {
+            background-color: blue;
+            position: fixed;
+            height: 50px;
+            top: 0px;
+        }
+
+        .sticky {
+            position: sticky;
+            top:70px ;
+            background-color: orange;
+
+        }
+
+        p {
+            background-color: red;
+            width: 400px;
+            display: inline;
+        }
+
+        span {
+            background-color: green;
+            width: 300px;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+
+<!--<div class="static">abc</div>-->
+<!--<div class="relative">abc</div>-->
+
+<!--<div class="fixed">Header</div>-->
+<div class="parent">
+    <div class="child">child</div>
+</div>
+<div class="fixed">Header</div>
+<div class="sticky">Tittlefsdddddddddddđ</div>
+<div style="height: 700px"> abc</div>
+<!--<div class="sticky">Title</div>-->
+<!--<div class="parent" style="height: 700px">-->
+<!--    <div class="child">child</div>-->
+<!--</div>-->
+
+
+</body>
+</html>
