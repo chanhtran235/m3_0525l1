@@ -1,5 +1,6 @@
 package org.example.demo_jstl.service;
 
+import org.example.demo_jstl.dto.StudentDto;
 import org.example.demo_jstl.entity.Student;
 import org.example.demo_jstl.repository.IStudentRepository;
 import org.example.demo_jstl.repository.StudentRepository;
@@ -10,7 +11,7 @@ public class StudentService implements IStudentService{
     private IStudentRepository studentRepository = new StudentRepository();
 
     @Override
-    public List<Student> findAll() {
+    public List<StudentDto> findAll() {
         return studentRepository.findAll();
     }
 

@@ -52,6 +52,14 @@
             <input type="number" class="form-control" id="score" name="score" value="0" onchange="checkValidate()">
             <small id="errorScore" class="text-danger"></small>
         </div>
+        <div class="mb-3">
+            <label for="score" class="form-label fw-bold">Score</label>
+            <select name="classId">
+                <c:forEach var="cls" items="${classList}">
+                    <option value="${cls.id}">${cls.name}</option>
+                </c:forEach>
+            </select>
+        </div>
 
         <!-- Save button -->
         <button id="btn-save" class="btn btn-primary w-100" disabled>Save</button>

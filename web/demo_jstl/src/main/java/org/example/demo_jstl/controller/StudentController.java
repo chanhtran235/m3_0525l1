@@ -6,7 +6,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.demo_jstl.dto.StudentDto;
 import org.example.demo_jstl.entity.Student;
+import org.example.demo_jstl.service.ClassService;
+import org.example.demo_jstl.service.IClassService;
 import org.example.demo_jstl.service.IStudentService;
 import org.example.demo_jstl.service.StudentService;
 
@@ -16,6 +19,7 @@ import java.util.List;
 @WebServlet(name = "studentController", value = "/students")
 public class StudentController extends HttpServlet {
     private IStudentService studentService = new StudentService();
+    private IClassService classService = new ClassService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        String action = req.getParameter("action");
@@ -37,6 +41,8 @@ public class StudentController extends HttpServlet {
 
     private void showFormAdd(HttpServletRequest req, HttpServletResponse resp) {
         try {
+            // trả về danh lớp học
+            req.setAttribute("classList",classService.findAll());
             req.getRequestDispatcher("/view/student/add.jsp").forward(req,resp);
 
         } catch (ServletException e) {
@@ -47,7 +53,7 @@ public class StudentController extends HttpServlet {
     }
 
     private void showList(HttpServletRequest req, HttpServletResponse resp) {
-        List<Student> studentList = studentService.findAll();
+        List<StudentDto> studentList = studentService.findAll();
         req.setAttribute("studentList", studentList);
         try {
             req.getRequestDispatcher("/view/student/list.jsp").forward(req,resp);
@@ -95,7 +101,8 @@ public class StudentController extends HttpServlet {
         String name = req.getParameter("name");
         boolean gender = Boolean.parseBoolean(req.getParameter("gender"));
         float score = Float.parseFloat(req.getParameter("score"));
-        Student student = new Student(name,gender,score);
+        int classId = Integer.parseInt(req.getParameter("classId"));
+        Student student = new Student(name,gender,score,classId);
         boolean isSuccess = studentService.add(student);
         String mess = isSuccess? "Them moi thanh cong":"Them moi that bai";
         try {

@@ -25,6 +25,7 @@
         <th>Gender</th>
         <th>Score</th>
         <th>Rank</th>
+        <th>Class</th>
         <th>Delete</th>
     </tr>
     <c:forEach var="student" items="${studentList}" varStatus="status">
@@ -55,6 +56,7 @@
                     </c:otherwise>
                 </c:choose>
             </td>
+            <td>${student.className}</td>
             <td>
                 <button onclick="getInfoToDelete('${student.id}','${student.name}')" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                  Delete

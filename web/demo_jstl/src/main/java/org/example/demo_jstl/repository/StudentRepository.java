@@ -1,5 +1,6 @@
 package org.example.demo_jstl.repository;
 
+import org.example.demo_jstl.dto.StudentDto;
 import org.example.demo_jstl.entity.Student;
 import org.example.demo_jstl.util.ConnectDB;
 
@@ -11,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepository implements IStudentRepository{
-    private final String SELECT_ALL = "select * from students;";
-    private final String INSERT_INTO = " insert into students(name,gender,score) values(?,?,?);";
+    private final String SELECT_ALL = "select s.*, c.name as class_name from students s join classes c on s.class_id=c.id;";
+    private final String INSERT_INTO = " insert into students(name,gender,score,class_id) values(?,?,?,?);";
     @Override
-    public List<Student> findAll() {
-        List<Student> studentList = new ArrayList<>();
+    public List<StudentDto> findAll() {
+        List<StudentDto> studentList = new ArrayList<>();
         // Kết nối DB
         try(Connection connection = ConnectDB.getConnectDB()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
@@ -25,8 +26,9 @@ public class StudentRepository implements IStudentRepository{
                 String name = resultSet.getString("name");
                 boolean gender = resultSet.getBoolean("gender");
                 float score = resultSet.getFloat("score");
-                Student student = new Student(id,name,gender,score);
-                studentList.add(student);
+                String className = resultSet.getString("class_name");
+                StudentDto studentDto = new StudentDto(id,name,gender,score,className);
+                studentList.add(studentDto);
             }
         } catch (SQLException e) {
             System.out.println("lỗi do truỳ vấn dữ liệu");
@@ -42,6 +44,7 @@ public class StudentRepository implements IStudentRepository{
             preparedStatement.setString(1,student.getName());
             preparedStatement.setBoolean(2,student.isGender());
             preparedStatement.setFloat(3,student.getScore());
+            preparedStatement.setInt(4,student.getClassId());
             int effectRow = preparedStatement.executeUpdate();
             return effectRow==1;
         } catch (SQLException e) {

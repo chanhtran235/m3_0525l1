@@ -1,40 +1,21 @@
-package org.example.demo_jstl.entity;
+package org.example.demo_jstl.dto;
 
-public class Student {
+public class StudentDto {
     private int id;
     private String name;
     private boolean gender;
     private float score;
-    private int classId;
+    private String className;
 
-    public Student() {
+    public StudentDto() {
     }
 
-    public Student(int id, String name, boolean gender, float score) {
+    public StudentDto(int id, String name, boolean gender, float score, String className) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.score = score;
-    }
-    public Student( String name, boolean gender, float score,int classId) {
-        this.name = name;
-        this.gender = gender;
-        this.score = score;
-        this.classId =classId;
-    }
-
-    public Student(String name, boolean gender, float score) {
-        this.name = name;
-        this.gender = gender;
-        this.score = score;
-    }
-
-    public int getClassId() {
-        return classId;
-    }
-
-    public void setClassId(int classId) {
-        this.classId = classId;
+        this.className = className;
     }
 
     public int getId() {
@@ -69,4 +50,11 @@ public class Student {
         this.score = score;
     }
 
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 }
