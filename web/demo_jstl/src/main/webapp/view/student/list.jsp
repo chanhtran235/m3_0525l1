@@ -15,6 +15,17 @@
 <body>
 <c:import url="../layout/navbar.jsp"/>
 <h1>Student List</h1>
+<form action="/students" method="get">
+    <input hidden="hidden" name="action" value="search">
+    <input name="searchName" value="${searchName}" placeholder="Nhập tên">
+    <select name="classId">
+        <option value=""> -----Chọn lớp-------</option>
+        <c:forEach var="cls" items="${classList}">
+            <option value="${cls.id}">${cls.name}</option>
+        </c:forEach>
+    </select>
+    <button>Tìm kiếm</button>
+</form>
 <a class="btn btn-sm btn-success" href="/students?action=add">Add new student</a>
 <h2>${param.mess}</h2>
 <table class="table table-dark table-striped">

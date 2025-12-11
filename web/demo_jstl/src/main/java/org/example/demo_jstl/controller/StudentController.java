@@ -31,12 +31,31 @@ public class StudentController extends HttpServlet {
                // trả về trang thêm mới
                showFormAdd(req,resp);
                break;
+           case "search":
+               // trả về trang thêm mới
+               search(req,resp);
+               break;
            default:
                showList(req,resp);
                break;
-
        }
 
+    }
+
+    private void search(HttpServletRequest req, HttpServletResponse resp) {
+        String searchName = req.getParameter("searchName");
+        String classId = req.getParameter("classId");
+        List<StudentDto> studentList =  studentService.search(searchName,classId);
+        req.setAttribute("studentList", studentList);
+        req.setAttribute("classList",classService.findAll());
+        req.setAttribute("searchName",searchName);
+        try {
+            req.getRequestDispatcher("/view/student/list.jsp").forward(req,resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void showFormAdd(HttpServletRequest req, HttpServletResponse resp) {
@@ -55,6 +74,7 @@ public class StudentController extends HttpServlet {
     private void showList(HttpServletRequest req, HttpServletResponse resp) {
         List<StudentDto> studentList = studentService.findAll();
         req.setAttribute("studentList", studentList);
+        req.setAttribute("classList",classService.findAll());
         try {
             req.getRequestDispatcher("/view/student/list.jsp").forward(req,resp);
         } catch (ServletException e) {
@@ -80,8 +100,6 @@ public class StudentController extends HttpServlet {
                 deleteById(req,resp);
                 break;
             default:
-
-
         }
     }
 
@@ -94,7 +112,6 @@ public class StudentController extends HttpServlet {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private void save(HttpServletRequest req, HttpServletResponse resp) {

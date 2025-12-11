@@ -10,4 +10,5 @@ public interface IStudentService {
     boolean add(Student student);
     boolean deleteById(int id);
 
+    List<StudentDto> search(String searchName, String classId);
 }

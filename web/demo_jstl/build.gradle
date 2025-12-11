@@ -36,7 +36,6 @@ dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation("mysql:mysql-connector-java:8.0.28")
 
-
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
